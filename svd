@@ -2,6 +2,7 @@
 ##################################################
 #
 # (c) 2020 Adams Vallejos <adams.vallejos@gu.se>
+# Version tor  3 sep 2020 16:44:40 CEST
 #
 ##################################################
 import shutil
@@ -25,8 +26,8 @@ try:
 except FileExistsError:
     print("Directory " , 'output' ,  " already exists")  
 #
-shutil.copy('input/'+str(files[0])+'.map','output/'+str(files[0]+'_svd'+'.map'))
-svd=mrcfile.open('output/'+str(files[0]+'_svd'+'.map'),mode='r+')
+shutil.copy('input/'+str(files[0])+'.map','output/'+str('svd_'+str("".join(files))+'.map'))
+svd=mrcfile.open('output/'+str('svd_'+str("".join(files))+'.map'),mode='r+')
 #
 for i in range(n):
     vars()["mrc"+str(i)]= mrcfile.open('input/'+str(files[i]+'.map'),mode='r')
@@ -36,7 +37,7 @@ if mrc0.data.shape == (locals()['mrc'+str(i)]).data.shape :
 else :
     sys.exit('Unequal map dimensions')
 for i in range(n):
-    A[:,i] = (locals()['mrc'+str(i)]).data.reshape(-1)       
+    A[:,i] = (locals()['mrc'+str(i)]).data.reshape(-1)
 cov = A.T @ A 
 L,V = numpy.linalg.eig(cov)
 S1 = numpy.sqrt(L[0])
@@ -50,3 +51,4 @@ svd.close()
 for i in range(n):
     vars()["mrc"+str(i)].close()
 print("SVD on maps performed successfully!")
+svd (END)
